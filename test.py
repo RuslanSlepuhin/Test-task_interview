@@ -25,22 +25,33 @@ def sort_words(file_name):
     :return: None
     """
 
-    with open(file_name, encoding='utf-8', mode='r') as file:
-        for line in file:  # читает построчно
+    try:
+        with open(file_name, encoding='utf-8', mode='r') as file:
+            for line in file:  # читает построчно
 
-            line = line.strip()  # убирает из строки в начале и в конце пробелы, в том числе перевод строк
+                line = line.strip()  # убирает из строки в начале и в конце пробелы, в том числе перевод строк
 
-            if line and line[0:1] != '#':  # если строка не закомментирована и не пустая
-                line_split = line.split(f'\t')  # отделяет английские слова от русских по символу табуляции
+                if line and line[0:1] != '#':  # если строка не закомментирована и не пустая
+                    line_split = line.split(f'\t')  # отделяет английские слова от русских по символу табуляции
 
-                for eng_word in line_split[0].split(';'):
-                    for rus_word in line_split[1].split(';'):
+                    for eng_word in line_split[0].split(';'):
+                        for rus_word in line_split[1].split(';'):
 
-                        with open('English.txt', encoding='utf-8', mode='a') as file_eng:
-                            file_eng.writelines(f'{eng_word.strip()}\n')
+                            with open('English.txt', encoding='utf-8', mode='a') as file_eng:
+                                file_eng.writelines(f'{eng_word.strip()}\n')
 
-                        with open('Russian.txt', encoding='utf-8', mode='a') as file_rus:
-                            file_rus.writelines(f'{rus_word.strip()}\n')
+                            with open('Russian.txt', encoding='utf-8', mode='a') as file_rus:
+                                file_rus.writelines(f'{rus_word.strip()}\n')
+
+    except Exception as e:
+        print(f'Ошибка чтения файла\n{e}')
+        return False
+
+    return True
 
 
-sort_words(file_name='PythonTest.txt')
+answer = sort_words(file_name='PythonTest.txt')
+if answer:
+    print('Код отработал успешно')
+else:
+    print('Код не отработал, ошибка')
